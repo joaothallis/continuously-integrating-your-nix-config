@@ -252,9 +252,13 @@ Now we transition from theory to practice. This is where the workshop becomes ha
 
 # Step 1: Basic GitHub Actions Setup
 
-Create `.github/workflows/ci.yml` in your Nix config repo:
+<div class="grid grid-cols-2 gap-6">
 
-```yaml {all|1-8|10-15|17-22|24-30} {maxHeight:'400px'}
+<div>
+
+**Create `.github/workflows/ci.yml`:**
+
+```yaml
 name: CI
 
 on:
@@ -269,7 +273,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: DeterminateSystems/nix-installer-action@main
+```
 
+</div>
+
+<div>
+
+**Add validation steps:**
+
+```yaml
     - name: Check Nix files syntax
       run: |
         find . -name "*.nix" -exec nix-instantiate --parse {} \; > /dev/null
@@ -280,6 +292,14 @@ jobs:
         nix flake show --all-systems
         nix flake check
 ```
+
+<div class="mt-4 p-3 bg-blue-900 bg-opacity-20 rounded text-sm">
+💡 <strong>Key tools:</strong> nix-instantiate checks syntax, flake check validates structure
+</div>
+
+</div>
+
+</div>
 
 <!--
 This is our foundation. The nix-instantiate command checks syntax, while flake check validates the structure. We're using Determinate Systems' installer for speed and reliability.
