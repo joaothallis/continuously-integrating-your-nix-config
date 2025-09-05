@@ -1,641 +1,697 @@
 ---
-# You can also start simply with 'default'
-theme: seriph
-# random image from a curated Unsplash collection by Anthony
-# like them? see https://unsplash.com/collections/94734566/slidev
-background: https://cover.sli.dev
-# some information about your slides (markdown enabled)
-title: Welcome to Slidev
+theme: default
+background: '#1e3a8a'
+title: Continuously Integrating Your Nix Config
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
-# apply unocss classes to the current slide
-class: text-center
-# https://sli.dev/features/drawing
+  ## Continuously Integrating Your Nix Config
+  Learn to add continuous integration checks to your Nix configuration in this hands-on workshop.
+class: text-center text-white
 drawings:
   persist: false
-# slide transition: https://sli.dev/guide/animations.html#slide-transitions
 transition: slide-left
-# enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
-# open graph
-seoMeta:
-  # By default, Slidev will use ./og-image.png if it exists,
-  # or generate one from the first slide if not found.
-  ogImage: auto
-  # ogImage: https://cover.sli.dev
 ---
 
-# Welcome to Slidev
+# Continuously Integrating Your Nix Config
 
-Presentation slides for developers
+**Building Automated Pipelines for Reliable System Management**
 
-<div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
-  Press Space for next page <carbon:arrow-right />
-</div>
-
-<div class="abs-br m-6 text-xl">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" class="slidev-icon-btn">
-    <carbon:logo-github />
+<div class="abs-br m-6 flex gap-2">
+  <a href="https://github.com/joaothallis/continuously-integrating-your-nix-config" target="_blank" class="text-xl slidev-icon-btn opacity-50 !border-none text-white hover:text-gray-300">
+    <carbon-logo-github />
   </a>
 </div>
 
 <!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
+Welcome to the workshop! This is an interactive session where you'll learn to build automated CI/CD pipelines specifically for Nix configurations. By the end, you'll have a working pipeline that tests, builds, and validates your Nix configs on every change.
 -->
-
----
-transition: fade-out
----
-
-# What is Slidev?
-
-Slidev is a slides maker and presenter designed for developers, consist of the following features
-
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - themes can be shared and re-used as npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embed Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export to PDF, PPTX, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - virtually anything that's possible on a webpage is possible in Slidev
-<br>
-<br>
-
-Read more about [Why Slidev?](https://sli.dev/guide/why)
-
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/features/slide-scope-style
--->
-
-<style>
-h1 {
-  background-color: #2B90B6;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-</style>
-
-<!--
-Here is another comment.
--->
-
----
-transition: slide-up
-level: 2
----
-
-# Navigation
-
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
-
-## Keyboard Shortcuts
-
-|                                                     |                             |
-| --------------------------------------------------- | --------------------------- |
-| <kbd>right</kbd> / <kbd>space</kbd>                 | next animation or slide     |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd>                                       | previous slide              |
-| <kbd>down</kbd>                                     | next slide                  |
-
-<!-- https://sli.dev/guide/animations.html#click-animation -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
-
----
-layout: two-cols
-layoutClass: gap-16
----
-
-# Table of contents
-
-You can use the `Toc` component to generate a table of contents for your slides:
-
-```html
-<Toc minDepth="1" maxDepth="1" />
-```
-
-The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
-
-::right::
-
-<Toc text-sm minDepth="1" maxDepth="2" />
-
----
-layout: image-right
-image: https://cover.sli.dev
----
-
-# Code
-
-Use code snippets and get the highlighting directly, and even types hover!
-
-```ts [filename-example.ts] {all|4|6|6-7|9|all} twoslash
-// TwoSlash enables TypeScript hover information
-// and errors in markdown code blocks
-// More at https://shiki.style/packages/twoslash
-import { computed, ref } from 'vue'
-
-const count = ref(0)
-const doubled = computed(() => count.value * 2)
-
-doubled.value = 2
-```
-
-<arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="342" color="#953" width="2" arrowSize="1" />
-
-<!-- This allow you to embed external code blocks -->
-<<< @/snippets/external.ts#snippet
-
-<!-- Footer -->
-
-[Learn more](https://sli.dev/features/line-highlighting)
-
-<!-- Inline style -->
-<style>
-.footnotes-sep {
-  @apply mt-5 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
-
-<!--
-Notes can also sync with clicks
-
-[click] This will be highlighted after the first click
-
-[click] Highlighted with `count = ref(0)`
-
-[click:3] Last click (skip two clicks)
--->
-
----
-level: 2
----
-
-# Shiki Magic Move
-
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
-
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
-
-````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-})
-```
-
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
-    }
-  }
-}
-```
-
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: 'John Doe',
-      books: [
-        'Vue 2 - Advanced Guide',
-        'Vue 3 - Basic Guide',
-        'Vue 4 - The Mystery'
-      ]
-    }
-  })
-}
-```
-
-Non-code blocks are ignored.
-
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-}
-</script>
-```
-````
-
----
-
-# Components
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-You can use Vue components directly inside your slides.
-
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
-```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
-</div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
-</div>
-
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
----
-class: px-20
----
-
-# Themes
-
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
-
-<div grid="~ cols-2 gap-2" m="t-2">
-
-```yaml
----
-theme: default
----
-```
-
-```yaml
----
-theme: seriph
----
-```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
-
-</div>
-
-Read more about [How to use a theme](https://sli.dev/guide/theme-addon#use-theme) and
-check out the [Awesome Themes Gallery](https://sli.dev/resources/theme-gallery).
-
----
-
-# Clicks Animations
-
-You can add `v-click` to elements to add a click animation.
-
-<div v-click>
-
-This shows up when you click the slide:
-
-```html
-<div v-click>This shows up when you click the slide.</div>
-```
-
-</div>
-
-<br>
-
-<v-click>
-
-The <span v-mark.red="3"><code>v-mark</code> directive</span>
-also allows you to add
-<span v-mark.circle.orange="4">inline marks</span>
-, powered by [Rough Notation](https://roughnotation.com/):
-
-```html
-<span v-mark.underline.orange>inline markers</span>
-```
-
-</v-click>
-
-<div mt-20 v-click>
-
-[Learn more](https://sli.dev/guide/animations#click-animation)
-
-</div>
-
----
-
-# Motions
-
-Motion animations are powered by [@vueuse/motion](https://motion.vueuse.org/), triggered by `v-motion` directive.
-
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :click-3="{ x: 80 }"
-  :leave="{ x: 1000 }"
->
-  Slidev
-</div>
-```
-
-<div class="w-60 relative">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-square.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-circle.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-triangle.png"
-      alt=""
-    />
-  </div>
-
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
-
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 30, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn more](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
----
-
-# LaTeX
-
-LaTeX is supported out-of-box. Powered by [KaTeX](https://katex.org/).
-
-<div h-3 />
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
-$$ {1|3|all}
-\begin{aligned}
-\nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} \\
-\nabla \cdot \vec{B} &= 0 \\
-\nabla \times \vec{E} &= -\frac{\partial\vec{B}}{\partial t} \\
-\nabla \times \vec{B} &= \mu_0\vec{J} + \mu_0\varepsilon_0\frac{\partial\vec{E}}{\partial t}
-\end{aligned}
-$$
-
-[Learn more](https://sli.dev/features/latex)
-
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-4 gap-5 pt-4 -mb-6">
-
-```mermaid {scale: 0.5, alt: 'A simple sequence diagram'}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-```mermaid
-mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectiveness<br/>and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
-```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
-}
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
-```
-
-</div>
-
-Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML Diagrams](https://sli.dev/features/plantuml)
-
----
-foo: bar
-dragPos:
-  square: 691,32,167,_,-16
----
-
-# Draggable Elements
-
-Double-click on the draggable elements to edit their positions.
-
-<br>
-
-###### Directive Usage
-
-```md
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-```
-
-<br>
-
-###### Component Usage
-
-```md
-<v-drag text-3xl>
-  <div class="i-carbon:arrow-up" />
-  Use the `v-drag` component to have a draggable container!
-</v-drag>
-```
-
-<v-drag pos="663,206,261,_,-15">
-  <div text-center text-3xl border border-main rounded>
-    Double-click me!
-  </div>
-</v-drag>
-
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-
-###### Draggable Arrow
-
-```md
-<v-drag-arrow two-way />
-```
-
-<v-drag-arrow pos="67,452,253,46" two-way op70 />
-
----
-src: ./pages/imported-slides.md
-hide: false
----
-
----
-
-# Monaco Editor
-
-Slidev provides built-in Monaco Editor support.
-
-Add `{monaco}` to the code block to turn it into an editor:
-
-```ts {monaco}
-import { ref } from 'vue'
-import { emptyArray } from './external'
-
-const arr = ref(emptyArray(10))
-```
-
-Use `{monaco-run}` to create an editor that can execute the code directly in the slide:
-
-```ts {monaco-run}
-import { version } from 'vue'
-import { emptyArray, sayHello } from './external'
-
-sayHello()
-console.log(`vue ${version}`)
-console.log(emptyArray<number>(10).reduce(fib => [...fib, fib.at(-1)! + fib.at(-2)!], [1, 1]))
-```
 
 ---
 layout: center
 class: text-center
 ---
 
-# Learn More
+# Welcome! 👋
 
-[Documentation](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/resources/showcases)
+## What You'll Walk Away With
 
-<PoweredBySlidev mt-10 />
+<v-clicks>
+
+- 🚀 **A working CI pipeline** for your Nix configs
+- 🔧 **Automated testing** that catches errors before deployment  
+- 📊 **Confidence** in your system changes
+- 🛠️ **Best practices** for Nix configuration management
+
+</v-clicks>
+
+<div v-after class="pt-8">
+  <span class="text-sm opacity-75">
+    Hands-on workshop • Interactive demos • Real-world examples
+  </span>
+</div>
+
+<!--
+This workshop is designed to be practical. We'll be building actual CI pipelines that you can use immediately. Bring your Nix configurations - we'll be working with real examples throughout the session.
+-->
+
+---
+layout: two-cols
+---
+
+# The Problem 🔥
+
+<v-clicks>
+
+**Without CI/CD for Nix:**
+- 💥 "It works on my machine"
+- 🐛 Configuration errors discovered in production
+- ⏰ Manual testing is slow and incomplete
+- 😰 Fear of making changes
+- 🔄 Inconsistent environments across team
+
+</v-clicks>
+
+::right::
+
+<v-clicks>
+
+**Horror Stories:**
+- NixOS rebuild fails after weeks of changes
+- Flake doesn't build on different architecture  
+- Home Manager breaks colleague's setup
+- Production deployment dies at 2 AM
+- Package conflicts discovered too late
+
+</v-clicks>
+
+<div v-after class="pt-4 text-sm opacity-75">
+  Sound familiar? Let's fix this! 🛠️
+</div>
+
+<!--
+These are real scenarios that Nix users face regularly. The beauty of Nix's reproducibility is only as good as our ability to validate our configurations before they reach production or other team members.
+-->
+
+---
+layout: center
+class: text-center
+---
+
+# Your Nix Config Deserves Better
+
+<v-clicks>
+
+## What if every change was:
+- ✅ **Automatically tested** before merge
+- 🔍 **Validated** across multiple platforms  
+- 🚀 **Built** to ensure it actually works
+- 📝 **Documented** with clear feedback
+- 🛡️ **Secure** and dependency-checked
+
+</v-clicks>
+
+<div v-after class="pt-8">
+  <h2 class="text-2xl text-green-400">That's what we're building today! 🎯</h2>
+</div>
+
+<!--
+This slide transitions from problems to possibilities. We're setting up the vision of what's possible with proper CI/CD for Nix configurations.
+-->
+
+---
+---
+
+# Quick Nix Config Refresher 📚
+
+<div class="grid grid-cols-2 gap-8">
+
+<div>
+
+## Flake Structure
+```nix
+{
+  description = "My NixOS config";
+  
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
+  };
+  
+  outputs = { self, nixpkgs, ... }: {
+    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
+      modules = [ ./configuration.nix ];
+    };
+  };
+}
+```
+
+</div>
+
+<div>
+
+## Common Pain Points
+<v-clicks>
+
+- **Syntax errors** in `.nix` files
+- **Missing dependencies** or packages
+- **Architecture mismatches** (x86_64 vs aarch64)
+- **Invalid configurations** that fail at rebuild
+- **Flake lock inconsistencies**
+- **Home Manager vs NixOS conflicts**
+
+</v-clicks>
+
+</div>
+
+</div>
+
+<!--
+Before we dive into CI/CD, let's make sure everyone's on the same page about Nix configurations. These are the common issues we'll be solving with our automated pipeline.
+-->
+
+---
+layout: center
+---
+
+# CI/CD for Nix: The Game Plan 🎯
+
+<div class="grid grid-cols-3 gap-8 mt-8">
+
+<div class="text-center">
+  <div class="text-4xl mb-4">🔍</div>
+  <h3 class="text-lg font-bold mb-2">Validate</h3>
+  <ul class="text-sm">
+    <li>Syntax checking</li>
+    <li>Flake evaluation</li>
+    <li>Dependency resolution</li>
+  </ul>
+</div>
+
+<div class="text-center">
+  <div class="text-4xl mb-4">🚀</div>
+  <h3 class="text-lg font-bold mb-2">Build</h3>
+  <ul class="text-sm">
+    <li>System configurations</li>
+    <li>Home Manager profiles</li>
+    <li>Multi-architecture</li>
+  </ul>
+</div>
+
+<div class="text-center">
+  <div class="text-4xl mb-4">✅</div>
+  <h3 class="text-lg font-bold mb-2">Test</h3>
+  <ul class="text-sm">
+    <li>Integration tests</li>
+    <li>Service validation</li>
+    <li>Regression checks</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="mt-12 text-center">
+  <h2 class="text-xl text-blue-400">Every commit. Every PR. Every time. 💪</h2>
+</div>
+
+<!--
+This is our three-pillar approach to Nix CI/CD. We'll implement each of these stages in our pipeline, building from simple syntax validation to comprehensive testing.
+-->
+
+---
+layout: center
+class: text-center
+---
+
+# 🚀 Time to Build!
+
+## Let's Create Your First Nix CI Pipeline
+
+<div class="mt-8">
+  <div class="text-lg mb-4">We'll use <span class="text-blue-400 font-bold">GitHub Actions</span> to:</div>
+  
+  <v-clicks>
+  
+  - ✅ **Check syntax** of all `.nix` files
+  - 🔍 **Evaluate** flake outputs  
+  - 🏗️ **Build** configurations
+  - 📦 **Cache** builds for speed
+  
+  </v-clicks>
+</div>
+
+<div v-after class="mt-8 p-4 bg-blue-900 bg-opacity-30 rounded-lg">
+  <div class="text-sm">📋 Follow along! We'll build this step by step.</div>
+</div>
+
+<!--
+Now we transition from theory to practice. This is where the workshop becomes hands-on and participants will start building their own CI pipeline.
+-->
+
+---
+---
+
+# Step 1: Basic GitHub Actions Setup
+
+Create `.github/workflows/ci.yml` in your Nix config repo:
+
+```yaml {all|1-8|10-15|17-22|24-30} {maxHeight:'400px'}
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: DeterminateSystems/nix-installer-action@main
+
+    - name: Check Nix files syntax
+      run: |
+        find . -name "*.nix" -exec nix-instantiate --parse {} \; > /dev/null
+        echo "✅ All .nix files have valid syntax"
+
+    - name: Evaluate flake outputs
+      run: |
+        nix flake show --all-systems
+        nix flake check
+```
+
+<!--
+This is our foundation. The nix-instantiate command checks syntax, while flake check validates the structure. We're using Determinate Systems' installer for speed and reliability.
+-->
+
+---
+layout: two-cols
+---
+
+# Step 2: Add Build Testing
+
+Let's build actual configurations to catch real issues:
+
+```yaml
+- name: Build NixOS configuration
+  run: |
+    # Build system configuration
+    nix build .#nixosConfigurations.myhost.config.system.build.toplevel
+    
+- name: Build Home Manager configuration  
+  run: |
+    # Build home configuration
+    nix build .#homeConfigurations.myuser.activationPackage
+```
+
+<div class="mt-4">
+<v-click>
+
+**⚠️ Replace `myhost` and `myuser` with your actual configuration names!**
+
+</v-click>
+</div>
+
+::right::
+
+<v-click>
+
+## What This Catches:
+
+- ✅ Missing packages/dependencies
+- ✅ Invalid module configurations  
+- ✅ Architecture incompatibilities
+- ✅ Service definition errors
+- ✅ File permission issues
+
+</v-click>
+
+<div v-after class="mt-8 p-3 bg-green-900 bg-opacity-20 rounded text-sm">
+💡 <strong>Pro tip:</strong> This will fail fast and save you from broken rebuilds!
+</div>
+
+<!--
+Building the actual configurations is where we catch the most common real-world issues. This step simulates what happens when you run nixos-rebuild or home-manager switch.
+-->
+
+---
+---
+
+# Step 3: Speed Up With Caching 🚀
+
+Add Nix binary cache for faster builds:
+
+```yaml {all|6-8|10-14|16-20} {maxHeight:'450px'}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: DeterminateSystems/nix-installer-action@main
+    - uses: DeterminateSystems/magic-nix-cache-action@main
+
+    # Enable flakes and add binary caches
+    - name: Configure Nix
+      run: |
+        echo "extra-substituters = https://nix-community.cachix.org" | sudo tee -a /etc/nix/nix.conf
+        echo "extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" | sudo tee -a /etc/nix/nix.conf
+
+    - name: Check syntax & evaluate  
+      run: |
+        find . -name "*.nix" -exec nix-instantiate --parse {} \; > /dev/null
+        nix flake show --all-systems
+        nix flake check
+
+    # Your build steps here...
+```
+
+<div class="mt-4 text-sm opacity-75">
+⚡ This can reduce build times from 20+ minutes to under 5 minutes!
+</div>
+
+<!--
+Caching is crucial for practical CI/CD. The magic-nix-cache-action provides automatic caching, while binary substituters like nix-community.cachix.org provide pre-built packages.
+-->
+
+---
+layout: center
+---
+
+# Advanced Testing & Validation 🧪
+
+<div class="grid grid-cols-2 gap-8">
+
+<div>
+
+## Code Quality Checks
+```yaml
+- name: Format check
+  run: |
+    nix fmt
+    if ! git diff --exit-code; then
+      echo "❌ Code not formatted"
+      exit 1
+    fi
+
+- name: Lint with statix  
+  run: |
+    nix run nixpkgs#statix check .
+```
+
+</div>
+
+<div>
+
+## Security & Dependencies
+```yaml
+- name: Vulnerability scan
+  run: |
+    nix run nixpkgs#vulnix --system
+
+- name: Check for outdated inputs
+  run: |
+    nix flake update --dry-run
+    # Alert if major updates available
+```
+
+</div>
+
+</div>
+
+<div class="mt-8 text-center text-sm opacity-75">
+🔍 These catch issues that basic building might miss
+</div>
+
+<!--
+Advanced validation goes beyond just "does it build" to include code quality, security, and maintenance concerns. These tools help maintain high-quality Nix configurations.
+-->
+
+---
+layout: two-cols
+---
+
+# Matrix Builds: Test Multiple Platforms 🚀
+
+Test your config across different systems:
+
+```yaml {1-10|11-20|21-25} {maxHeight:'450px'}
+jobs:
+  check:
+    strategy:
+      matrix:
+        system: 
+          - ubuntu-latest
+          - macos-latest
+        arch:
+          - x86_64-linux
+          - aarch64-darwin
+    
+    runs-on: ${{ matrix.system }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: DeterminateSystems/nix-installer-action@main
+    
+    - name: Build for architecture
+      run: |
+        nix build .#packages.${{ matrix.arch }}.default
+        nix build .#nixosConfigurations.myhost.config.system.build.toplevel --system ${{ matrix.arch }}
+        
+    - name: Test cross-compilation
+      run: |
+        nix build .#packages.aarch64-linux.default --system x86_64-linux
+```
+
+::right::
+
+<v-click>
+
+## Why Matrix Builds?
+
+- ✅ **Apple Silicon** compatibility  
+- ✅ **Server deployment** validation
+- ✅ **Cross-compilation** testing
+- ✅ **Multi-user** configurations
+- ⚡ **Parallel** execution
+
+</v-click>
+
+<div v-after class="mt-6 p-3 bg-orange-900 bg-opacity-20 rounded text-sm">
+⚠️ <strong>Note:</strong> GitHub Actions has usage limits. Consider which combinations you actually need!
+</div>
+
+<!--
+Matrix builds are powerful for ensuring your Nix configurations work across different platforms. This is especially important for teams with mixed environments or when deploying to different architectures.
+-->
+
+---
+layout: center
+---
+
+# When Things Go Wrong 🚨
+
+## Common CI Failures & Quick Fixes
+
+<div class="grid grid-cols-2 gap-6 mt-8">
+
+<div>
+
+### ❌ Build Timeout
+```bash
+Error: Action timed out after 6 hours
+```
+**Fix:** Add more binary caches or reduce build scope
+```yaml
+timeout-minutes: 60  # Don't wait forever
+```
+
+### ❌ Out of Disk Space  
+```bash
+No space left on device
+```
+**Fix:** Clean up between steps
+```yaml
+- name: Free disk space
+  run: nix-collect-garbage -d
+```
+
+</div>
+
+<div>
+
+### ❌ Architecture Mismatch
+```bash
+cannot build on 'x86_64-linux' platform
+```
+**Fix:** Use proper platform specification
+```yaml
+nix build --system x86_64-linux
+```
+
+### ❌ Flake Lock Issues
+```bash
+error: input 'nixpkgs' not found
+```
+**Fix:** Update or commit flake.lock
+```bash
+nix flake update && git add flake.lock
+```
+
+</div>
+
+</div>
+
+<!--
+These are the most common issues people encounter when setting up Nix CI/CD. Having quick fixes ready saves hours of debugging.
+-->
+
+---
+layout: two-cols
+---
+
+# Best Practices 💎
+
+<v-clicks>
+
+## Pipeline Design
+- **Start simple** - Basic syntax checking first
+- **Fail fast** - Put quick checks before slow builds  
+- **Cache everything** - Use all available cache layers
+- **Parallel jobs** - Run independent checks concurrently
+
+## Code Organization
+- **Modular configs** - Easier to test individual parts
+- **Clear naming** - `hosts/laptop.nix` not `config.nix`
+- **Version pins** - Pin critical dependencies  
+- **Document changes** - Good commit messages help debugging
+
+</v-clicks>
+
+::right::
+
+<v-clicks>
+
+## Team Collaboration
+- **Branch protection** - Require CI to pass
+- **Review requirements** - Don't merge broken configs
+- **Shared caches** - Use team Cachix or similar
+- **Testing environments** - Stage before production
+
+## Monitoring & Alerts  
+- **Build notifications** - Know when things break
+- **Performance tracking** - Watch build times
+- **Dependency updates** - Regular renovate/dependabot
+- **Security scanning** - Keep configs secure
+
+</v-clicks>
+
+<!--
+These practices come from real-world experience managing Nix configurations at scale. Following them will save you significant pain as your configurations grow.
+-->
+
+---
+layout: center
+class: text-center
+---
+
+# What's Next? 🚀
+
+## Take Your Pipeline Further
+
+<v-clicks>
+
+- 🌐 **Deploy Automatically** - Use CI to deploy to staging/production
+- 🏠 **Home Manager Integration** - Test user environment changes  
+- 🐳 **Container Builds** - Package your configs as Docker images
+- ☁️ **Cloud Deployments** - Auto-deploy to NixOS servers
+- 📊 **Monitoring** - Track system health after deployments
+- 🔒 **Secrets Management** - Integrate with sops-nix or age
+
+</v-clicks>
+
+<div v-after class="mt-12">
+  <h2 class="text-2xl text-green-400 mb-4">You now have the foundation! 🎯</h2>
+  <div class="text-lg opacity-75">Start with the basics, then expand as you learn.</div>
+</div>
+
+<!--
+This gives participants clear next steps after the workshop ends. The key is to start simple and gradually add complexity as they gain confidence.
+-->
+
+---
+layout: center
+class: text-center
+---
+
+# Resources & Community 📚
+
+<div class="grid grid-cols-2 gap-8 mt-8">
+
+<div>
+
+## 🔗 Essential Links
+- **[Nix Manual](https://nixos.org/manual/nix/stable/)** - Official docs
+- **[NixOS Wiki](https://nixos.wiki/)** - Community knowledge
+- **[Determinate Systems](https://determinate.systems/)** - CI actions & tools
+- **[Nix Community](https://github.com/nix-community)** - Shared packages & tools
+
+## 🛠️ Helpful Tools  
+- **[devenv](https://devenv.sh/)** - Development environments
+- **[Cachix](https://cachix.org/)** - Binary caching service
+- **[nix-direnv](https://github.com/nix-community/nix-direnv)** - Auto-loading shells
+
+</div>
+
+<div>
+
+## 💬 Get Help & Share
+- **[NixOS Discourse](https://discourse.nixos.org/)** - Q&A and discussions
+- **[Matrix Chat](https://matrix.to/#/#nix:nixos.org)** - Real-time help  
+- **[Reddit r/NixOS](https://reddit.com/r/NixOS)** - Community posts
+- **[GitHub Discussions](https://github.com/NixOS/nixpkgs/discussions)** - Package issues
+
+## 📖 Advanced Reading
+- **[Nix Pills](https://nixos.org/guides/nix-pills/)** - Deep dive tutorial
+- **[Zero to Nix](https://zero-to-nix.com/)** - Learning resource
+
+</div>
+
+</div>
+
+<!--
+Providing concrete resources helps participants continue learning after the workshop. These are carefully selected as the most helpful resources for continuing the Nix journey.
+-->
+
+---
+layout: center
+class: text-center
+---
+
+# Thank You! 🎉
+
+## Questions & Discussion
+
+<div class="mt-12">
+  <div class="text-xl mb-4">You're now ready to confidently manage your Nix configs!</div>
+  <div class="text-lg opacity-75 mb-8">Remember: Start simple, iterate, and don't be afraid to experiment.</div>
+</div>
+
+<div class="flex justify-center gap-8 text-sm">
+  <div class="px-4 py-2 bg-blue-900 bg-opacity-30 rounded">
+    🚀 Build your first pipeline
+  </div>
+  <div class="px-4 py-2 bg-green-900 bg-opacity-30 rounded">  
+    🔧 Test with real configs
+  </div>
+  <div class="px-4 py-2 bg-purple-900 bg-opacity-30 rounded">
+    💬 Share your learnings
+  </div>
+</div>
+
+<div class="mt-8 text-sm opacity-50">
+  Happy building! May your configs always evaluate successfully. ✨
+</div>
+
+<!--
+A warm conclusion that reinforces the key learning outcomes and encourages continued exploration. The workshop has provided both practical skills and confidence to experiment further.
+-->
