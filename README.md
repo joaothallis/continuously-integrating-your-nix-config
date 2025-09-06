@@ -10,15 +10,10 @@ This presentation uses the [nix-dev](https://github.com/claudionts/nix-dev/) pro
 
 ### Using Nix (Recommended)
 
-This project includes a `shell.nix` for a reproducible development environment:
+To run the slides:
 
 ```bash
-# Enter the Nix shell with Node.js and Yarn
-nix-shell
-
-# Install dependencies and start the server
-yarn install
-yarn dev
+nix-shell --command "yarn dev"
 ```
 
 ### Traditional Setup
