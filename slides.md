@@ -27,32 +27,31 @@ Welcome to the workshop! This is an interactive session where you'll learn to bu
 -->
 
 ---
-layout: center
+layout: two-cols
 class: text-center
 ---
 
-# Welcome! 👋
+# João Thallis 👋
 
-## What You'll Walk Away With
+<br>
 
-<v-clicks>
+## Product Engineer at Turn.io 
 
-- 🚀 **A working CI pipeline** for your Nix configs
-- 🔧 **Automated testing** that catches errors before deployment  
-- 📊 **Confidence** in your system changes
-- 🛠️ **Best practices** for Nix configuration management
+::right::
 
-</v-clicks>
+# Claudio Neto 🤠
 
-<div v-after class="pt-8">
-  <span class="text-sm opacity-75">
-    Hands-on workshop • Interactive demos • Real-world examples
-  </span>
-</div>
+<br>
 
-<!--
-This workshop is designed to be practical. We'll be building actual CI pipelines that you can use immediately. Bring your Nix configurations - we'll be working with real examples throughout the session.
--->
+## Tech Lead at FacilitaPay
+
+---
+layout: center
+---
+
+# What's CI?
+
+### Continuous Integration is a tool that Automatically run checks on each change you (commit) you do in a project 
 
 ---
 layout: two-cols
@@ -116,6 +115,115 @@ class: text-center
 
 <!--
 This slide transitions from problems to possibilities. We're setting up the vision of what's possible with proper CI/CD for Nix configurations.
+-->
+
+---
+layout: center
+---
+
+# What is Continuous Integration (CI)? 🔄
+
+<div class="grid grid-cols-2 gap-12 mt-8">
+
+<div>
+
+## Traditional Development
+<v-click>
+
+```mermaid {scale: 0.8}
+graph TD
+    A[Write Code] --> B[Test Locally]
+    B --> C[Deploy to Production]
+    C --> D[🔥 Something Breaks]
+    D --> E[Debug in Production]
+    E --> F[Fix & Redeploy]
+```
+
+</v-click>
+
+</div>
+
+<div>
+
+## With CI/CD
+<v-click>
+
+```mermaid {scale: 0.8}
+graph TD
+    A[Write Code] --> B[Push to Git]
+    B --> C[🤖 Automated Tests]
+    C --> D[🤖 Build & Validate]
+    D --> E[✅ Deploy if All Pass]
+    E --> F[📈 Monitor]
+```
+
+</v-click>
+
+</div>
+
+</div>
+
+<div v-after class="mt-8 text-center">
+  <div class="text-lg text-blue-400">**CI = Automated quality checks on every code change**</div>
+  <div class="text-sm opacity-75 mt-2">Catch problems early, deploy with confidence</div>
+</div>
+
+<!--
+This foundational slide explains CI/CD concepts before we dive into Nix-specific implementations. The visual comparison helps participants understand the value proposition.
+-->
+
+---
+layout: center
+---
+
+# CI/CD Tools & Platforms 🛠️
+
+<div class="grid grid-cols-3 gap-8 mt-8">
+
+<div class="text-center">
+  <div class="text-4xl mb-4">🐙</div>
+  <h3 class="text-lg font-bold mb-2 text-blue-400">GitHub Actions</h3>
+  <ul class="text-sm">
+    <li>✅ Built into GitHub</li>
+    <li>✅ Free for public repos</li>
+    <li>✅ Great Nix support</li>
+    <li>✅ Easy to start</li>
+  </ul>
+</div>
+
+<div class="text-center">
+  <div class="text-4xl mb-4">🦊</div>
+  <h3 class="text-lg font-bold mb-2 text-orange-400">GitLab CI</h3>
+  <ul class="text-sm">
+    <li>✅ Self-hosted option</li>
+    <li>✅ Docker integration</li>
+    <li>✅ Built-in container registry</li>
+    <li>⚠️ Nix setup required</li>
+  </ul>
+</div>
+
+<div class="text-center">
+  <div class="text-4xl mb-4">🔵</div>
+  <h3 class="text-lg font-bold mb-2 text-blue-600">Other Options</h3>
+  <ul class="text-sm">
+    <li>Jenkins (self-hosted)</li>
+    <li>CircleCI (cloud)</li>
+    <li>Buildkite (hybrid)</li>
+    <li>Drone CI (open source)</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="mt-12 text-center">
+  <div class="p-4 bg-blue-900 bg-opacity-20 rounded-lg">
+    <h3 class="text-xl text-blue-400 mb-2">🎯 Today: GitHub Actions</h3>
+    <div class="text-sm">Most accessible, great Nix ecosystem support, and excellent learning platform</div>
+  </div>
+</div>
+
+<!--
+This slide gives participants context about available CI tools and explains our choice of GitHub Actions for the workshop. It helps them understand they have options while focusing on the most practical choice for learning.
 -->
 
 ---
@@ -307,6 +415,7 @@ This is our foundation. The nix-instantiate command checks syntax, while flake c
 
 ---
 layout: two-cols
+layoutClass: gap-16
 ---
 
 # Step 2: Add Build Testing
@@ -362,7 +471,7 @@ Building the actual configurations is where we catch the most common real-world 
 
 Add Nix binary cache for faster builds:
 
-```yaml {all|6-8|10-14|16-20} {maxHeight:'450px'}
+```yaml {all|6-8|10-14|16-20}
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -385,10 +494,6 @@ jobs:
 
     # Your build steps here...
 ```
-
-<div class="mt-4 text-sm opacity-75">
-⚡ This can reduce build times from 20+ minutes to under 5 minutes!
-</div>
 
 <!--
 Caching is crucial for practical CI/CD. The magic-nix-cache-action provides automatic caching, while binary substituters like nix-community.cachix.org provide pre-built packages.
@@ -583,7 +688,6 @@ layout: two-cols
 - **Modular configs** - Easier to test individual parts
 - **Clear naming** - `hosts/laptop.nix` not `config.nix`
 - **Version pins** - Pin critical dependencies  
-- **Document changes** - Good commit messages help debugging
 
 </v-clicks>
 
@@ -601,7 +705,6 @@ layout: two-cols
 - **Build notifications** - Know when things break
 - **Performance tracking** - Watch build times
 - **Dependency updates** - Regular renovate/dependabot
-- **Security scanning** - Keep configs secure
 
 </v-clicks>
 
