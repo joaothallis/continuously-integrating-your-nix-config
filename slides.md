@@ -267,6 +267,13 @@ layout: default
     <p class="text-sm text-gray-400">nixos.org/hydra</p>
     <p class="text-xs text-gray-500">(self-hosted)</p>
   </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🏗️</div>
+    <h3 class="text-xl font-bold">nixbuild.net</h3>
+    <p class="text-sm text-gray-400">nixbuild.net</p>
+    <p class="text-xs text-gray-500">(cloud)</p>
+  </div>
 </div>
 
 <div class="mt-10 flex justify-center">
