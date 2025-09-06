@@ -173,58 +173,107 @@ This foundational slide explains CI/CD concepts before we dive into Nix-specific
 -->
 
 ---
-layout: center
+layout: default
 ---
 
 # CI/CD Tools & Platforms 🛠️
 
-<div class="grid grid-cols-3 gap-8 mt-8">
-
-<div class="text-center">
-  <div class="text-4xl mb-4">🐙</div>
-  <h3 class="text-lg font-bold mb-2 text-blue-400">GitHub Actions</h3>
-  <ul class="text-sm">
-    <li>✅ Built into GitHub</li>
-    <li>✅ Free for public repos</li>
-    <li>✅ Great Nix support</li>
-    <li>✅ Easy to start</li>
-  </ul>
+<div class="grid grid-cols-3 gap-x-12 gap-y-8 mt-8 px-4">
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🐙</div>
+    <h3 class="text-xl font-bold">GitHub Actions</h3>
+    <p class="text-sm text-gray-400">(cloud)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🦊</div>
+    <h3 class="text-xl font-bold">GitLab CI</h3>
+    <p class="text-sm text-gray-400">(cloud/self-hosted)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🔧</div>
+    <h3 class="text-xl font-bold">Jenkins</h3>
+    <p class="text-sm text-gray-400">(self-hosted)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🏗️</div>
+    <h3 class="text-xl font-bold">Buildbot</h3>
+    <p class="text-sm text-gray-400">(self-hosted)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🐦</div>
+    <h3 class="text-xl font-bold">Woodpecker CI</h3>
+    <p class="text-sm text-gray-400">(self-hosted)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">⭕</div>
+    <h3 class="text-xl font-bold">CircleCI</h3>
+    <p class="text-sm text-gray-400">(cloud)</p>
+  </div>
 </div>
 
-<div class="text-center">
-  <div class="text-4xl mb-4">🦊</div>
-  <h3 class="text-lg font-bold mb-2 text-orange-400">GitLab CI</h3>
-  <ul class="text-sm">
-    <li>✅ Self-hosted option</li>
-    <li>✅ Docker integration</li>
-    <li>✅ Built-in container registry</li>
-    <li>⚠️ Nix setup required</li>
-  </ul>
-</div>
-
-<div class="text-center">
-  <div class="text-4xl mb-4">🔵</div>
-  <h3 class="text-lg font-bold mb-2 text-blue-600">Other Options</h3>
-  <ul class="text-sm">
-    <li>Jenkins (self-hosted)</li>
-    <li>CircleCI (cloud)</li>
-    <li>Buildkite (hybrid)</li>
-    <li>Drone CI (open source)</li>
-  </ul>
-</div>
-
-</div>
-
-<div class="mt-12 text-center">
-  <div class="p-4 bg-blue-900 bg-opacity-20 rounded-lg">
-    <h3 class="text-xl text-blue-400 mb-2">🎯 Today: GitHub Actions</h3>
-    <div class="text-sm">Most accessible, great Nix ecosystem support, and excellent learning platform</div>
+<div class="mt-10 flex justify-center">
+  <div class="px-6 py-3 bg-blue-500 bg-opacity-10 border-2 border-blue-400 rounded-lg">
+    <h3 class="text-xl text-blue-400 font-bold">🎯 Today: GitHub Actions</h3>
   </div>
 </div>
 
 <!--
 This slide gives participants context about available CI tools and explains our choice of GitHub Actions for the workshop. It helps them understand they have options while focusing on the most practical choice for learning.
 -->
+
+---
+layout: default
+---
+
+# Nix-Native CI Tools 🔷
+
+<div class="grid grid-cols-3 gap-x-12 gap-y-8 mt-8 px-4">
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🌿</div>
+    <h3 class="text-xl font-bold">Garnix</h3>
+    <p class="text-sm text-gray-400">garnix.io</p>
+    <p class="text-xs text-gray-500">(cloud)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">⚡</div>
+    <h3 class="text-xl font-bold">Hercules CI</h3>
+    <p class="text-sm text-gray-400">hercules-ci.com</p>
+    <p class="text-xs text-gray-500">(cloud)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🕉️</div>
+    <h3 class="text-xl font-bold">Om CI</h3>
+    <p class="text-sm text-gray-400">omnix.page/om/ci</p>
+    <p class="text-xs text-gray-500">(self-hosted)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">❄️</div>
+    <h3 class="text-xl font-bold">NixCI</h3>
+    <p class="text-sm text-gray-400">nix-ci.com</p>
+    <p class="text-xs text-gray-500">(cloud)</p>
+  </div>
+  
+  <div class="flex flex-col items-center">
+    <div class="text-5xl mb-2">🐉</div>
+    <h3 class="text-xl font-bold">Hydra</h3>
+    <p class="text-sm text-gray-400">nixos.org/hydra</p>
+    <p class="text-xs text-gray-500">(self-hosted)</p>
+  </div>
+</div>
+
+<div class="mt-10 flex justify-center">
+  <div class="px-6 py-3 bg-green-500 bg-opacity-10 border-2 border-green-400 rounded-lg">
+    <h3 class="text-lg text-green-400 font-bold">Built specifically for Nix workflows</h3>
+  </div>
+</div>
 
 ---
 ---
