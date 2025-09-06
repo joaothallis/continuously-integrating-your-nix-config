@@ -292,7 +292,7 @@ layoutClass: gap-16
 # Check Format 👔
 
 ```yaml {all|1-1|2-2|all}
-- name: Check code formattingj
+- name: Check code formatting
   run: nix run nixpkgs#alejandra -- --check .
 ```
 

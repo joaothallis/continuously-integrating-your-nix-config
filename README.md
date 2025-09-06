@@ -8,10 +8,25 @@ This presentation uses the [nix-dev](https://github.com/claudionts/nix-dev/) pro
 
 ## Getting Started
 
-To start the slide show:
+### Using Nix (Recommended)
 
-- `pnpm install` or `yarn install`
-- `pnpm dev` or `yarn dev`
+This project includes a `shell.nix` for a reproducible development environment:
+
+```bash
+# Enter the Nix shell with Node.js and Yarn
+nix-shell
+
+# Install dependencies and start the server
+yarn install
+yarn dev
+```
+
+### Traditional Setup
+
+To start the slide show without Nix:
+
+- `yarn install`
+- `yarn dev`
 - visit <http://localhost:3030>
 
 Edit the [slides.md](./slides.md) to see the changes.
