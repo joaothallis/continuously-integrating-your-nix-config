@@ -283,448 +283,92 @@ layout: default
 </div>
 
 ---
----
-
-# Quick Nix Config Refresher 📚
-
-<div class="grid grid-cols-2 gap-8">
-
-<div>
-
-## Flake Structure
-```nix
-{
-  description = "My NixOS config";
-  
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
-  };
-  
-  outputs = { self, nixpkgs, ... }: {
-    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
-      modules = [ ./configuration.nix ];
-    };
-  };
-}
-```
-
-</div>
-
-<div>
-
-## Common Pain Points
-<v-clicks>
-
-- **Syntax errors** in `.nix` files
-- **Missing dependencies** or packages
-- **Architecture mismatches** (x86_64 vs aarch64)
-- **Invalid configurations** that fail at rebuild
-- **Flake lock inconsistencies**
-- **Home Manager vs NixOS conflicts**
-
-</v-clicks>
-
-</div>
-
-</div>
-
-<!--
-Before we dive into CI/CD, let's make sure everyone's on the same page about Nix configurations. These are the common issues we'll be solving with our automated pipeline.
--->
-
----
-layout: center
----
-
-# CI/CD for Nix: The Game Plan 🎯
-
-<div class="grid grid-cols-3 gap-8 mt-8">
-
-<div class="text-center">
-  <div class="text-4xl mb-4">🔍</div>
-  <h3 class="text-lg font-bold mb-2">Validate</h3>
-  <ul class="text-sm">
-    <li>Syntax checking</li>
-    <li>Flake evaluation</li>
-    <li>Dependency resolution</li>
-  </ul>
-</div>
-
-<div class="text-center">
-  <div class="text-4xl mb-4">🚀</div>
-  <h3 class="text-lg font-bold mb-2">Build</h3>
-  <ul class="text-sm">
-    <li>System configurations</li>
-    <li>Home Manager profiles</li>
-    <li>Multi-architecture</li>
-  </ul>
-</div>
-
-<div class="text-center">
-  <div class="text-4xl mb-4">✅</div>
-  <h3 class="text-lg font-bold mb-2">Test</h3>
-  <ul class="text-sm">
-    <li>Integration tests</li>
-    <li>Service validation</li>
-    <li>Regression checks</li>
-  </ul>
-</div>
-
-</div>
-
-<div class="mt-12 text-center">
-  <h2 class="text-xl text-blue-400">Every commit. Every PR. Every time. 💪</h2>
-</div>
-
-<!--
-This is our three-pillar approach to Nix CI/CD. We'll implement each of these stages in our pipeline, building from simple syntax validation to comprehensive testing.
--->
-
----
 layout: center
 class: text-center
 ---
 
 # 🚀 Time to Build!
 
-## Let's Create Your First Nix CI Pipeline
-
-<div class="mt-8">
-  <div class="text-lg mb-4">We'll use <span class="text-blue-400 font-bold">GitHub Actions</span> to:</div>
-  
-  <v-clicks>
-  
-  - ✅ **Check syntax** of all `.nix` files
-  - 🔍 **Evaluate** flake outputs  
-  - 🏗️ **Build** configurations
-  - 📦 **Cache** builds for speed
-  
-  </v-clicks>
-</div>
-
-<div v-after class="mt-8 p-4 bg-blue-900 bg-opacity-30 rounded-lg">
-  <div class="text-sm">📋 Follow along! We'll build this step by step.</div>
-</div>
-
-<!--
-Now we transition from theory to practice. This is where the workshop becomes hands-on and participants will start building their own CI pipeline.
--->
+## Let's Create Our Nix CI Pipeline
 
 ---
 ---
 
 # Step 1: Basic GitHub Actions Setup
 
-<div class="grid grid-cols-2 gap-6">
-
-<div>
-
 **Create `.github/workflows/ci.yml`:**
 
-```yaml
+```yaml {all|1|3-5|7-9|11-14|15-17|all}
 name: CI
 
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
-    branches: [ main, master ]
+  push:
 
 jobs:
-  check:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: DeterminateSystems/nix-installer-action@main
+    - uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+    - uses: cachix/cachix-action@v16
+      with:
+        name: mycache
 ```
-
-</div>
-
-<div>
-
-**Add validation steps:**
-
-```yaml
-    - name: Check Nix files syntax
-      run: |
-        find . -name "*.nix" -exec nix-instantiate --parse {} \; > /dev/null
-        echo "✅ All .nix files have valid syntax"
-
-    - name: Evaluate flake outputs
-      run: |
-        nix flake show --all-systems
-        nix flake check
-```
-
-<div class="mt-4 p-3 bg-blue-900 bg-opacity-20 rounded text-sm">
-💡 <strong>Key tools:</strong> nix-instantiate checks syntax, flake check validates structure
-</div>
-
-</div>
-
-</div>
-
-<!--
-This is our foundation. The nix-instantiate command checks syntax, while flake check validates the structure. We're using Determinate Systems' installer for speed and reliability.
--->
 
 ---
-layout: two-cols
+layout: center
 layoutClass: gap-16
 ---
 
-# Step 2: Add Build Testing
+# Check Format 👔
 
-Let's build actual configurations to catch real issues:
-
-```yaml
-- name: Build NixOS configuration
-  run: |
-    # Build system configuration
-    nix build .#nixosConfigurations.myhost.config.system.build.toplevel
-    
-- name: Build Home Manager configuration  
-  run: |
-    # Build home configuration
-    nix build .#homeConfigurations.myuser.activationPackage
+```yaml {all|1-1|2-2|all}
+- name: Check code formattingj
+  run: nix run nixpkgs#alejandra -- --check .
 ```
 
-<div class="mt-4">
-<v-click>
-
-**⚠️ Replace `myhost` and `myuser` with your actual configuration names!**
-
-</v-click>
-</div>
-
-::right::
-
-<v-click>
-
-## What This Catches:
-
-- ✅ Missing packages/dependencies
-- ✅ Invalid module configurations  
-- ✅ Architecture incompatibilities
-- ✅ Service definition errors
-- ✅ File permission issues
-
-</v-click>
-
-<div v-after class="mt-8 p-3 bg-green-900 bg-opacity-20 rounded text-sm">
-💡 <strong>Pro tip:</strong> This will fail fast and save you from broken rebuilds!
-</div>
-
-<!--
-Building the actual configurations is where we catch the most common real-world issues. This step simulates what happens when you run nixos-rebuild or home-manager switch.
--->
-
 ---
+layout: center
+layoutClass: gap-16
 ---
 
-# Step 3: Speed Up With Caching 🚀
+# Build Check 🏰
 
-Add Nix binary cache for faster builds:
+Let's build actual configurations to catch build issues:
 
-```yaml {all|6-8|10-14|16-20}
-jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: DeterminateSystems/nix-installer-action@main
-    - uses: DeterminateSystems/magic-nix-cache-action@main
-
-    # Enable flakes and add binary caches
-    - name: Configure Nix
-      run: |
-        echo "extra-substituters = https://nix-community.cachix.org" | sudo tee -a /etc/nix/nix.conf
-        echo "extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" | sudo tee -a /etc/nix/nix.conf
-
-    - name: Check syntax & evaluate  
-      run: |
-        find . -name "*.nix" -exec nix-instantiate --parse {} \; > /dev/null
-        nix flake show --all-systems
-        nix flake check
-
-    # Your build steps here...
+```yaml {all|1-1|2-2|all}
+  - run: nix build
+  - run: nix-shell --run "echo OK"
 ```
-
-<!--
-Caching is crucial for practical CI/CD. The magic-nix-cache-action provides automatic caching, while binary substituters like nix-community.cachix.org provide pre-built packages.
--->
 
 ---
 layout: center
 ---
 
-# Advanced Testing & Validation 🧪
+# Linter 🪮
 
-<div class="grid grid-cols-2 gap-8">
+Lints and Suggestions for the Nix programming language
 
-<div>
-
-## Code Quality Checks
-```yaml
-- name: Format check
-  run: |
-    nix fmt
-    if ! git diff --exit-code; then
-      echo "❌ Code not formatted"
-      exit 1
-    fi
-
-- name: Lint with statix  
-  run: |
-    nix run nixpkgs#statix check .
+```yaml {all|1-1|2-2|all}
+- name: Run statix linter
+  run: nix run nixpkgs#statix check
 ```
-
-</div>
-
-<div>
-
-## Security & Dependencies
-```yaml
-- name: Vulnerability scan
-  run: |
-    nix run nixpkgs#vulnix --system
-
-- name: Check for outdated inputs
-  run: |
-    nix flake update --dry-run
-    # Alert if major updates available
-```
-
-</div>
-
-</div>
-
-<div class="mt-8 text-center text-sm opacity-75">
-🔍 These catch issues that basic building might miss
-</div>
-
-<!--
-Advanced validation goes beyond just "does it build" to include code quality, security, and maintenance concerns. These tools help maintain high-quality Nix configurations.
--->
-
----
-layout: two-cols
----
-
-# Matrix Builds: Test Multiple Platforms 🚀
-
-Test your config across different systems:
-
-```yaml {1-10|11-20|21-25} {maxHeight:'450px'}
-jobs:
-  check:
-    strategy:
-      matrix:
-        system: 
-          - ubuntu-latest
-          - macos-latest
-        arch:
-          - x86_64-linux
-          - aarch64-darwin
-    
-    runs-on: ${{ matrix.system }}
-    steps:
-    - uses: actions/checkout@v4
-    - uses: DeterminateSystems/nix-installer-action@main
-    
-    - name: Build for architecture
-      run: |
-        nix build .#packages.${{ matrix.arch }}.default
-        nix build .#nixosConfigurations.myhost.config.system.build.toplevel --system ${{ matrix.arch }}
-        
-    - name: Test cross-compilation
-      run: |
-        nix build .#packages.aarch64-linux.default --system x86_64-linux
-```
-
-::right::
-
-<v-click>
-
-## Why Matrix Builds?
-
-- ✅ **Apple Silicon** compatibility  
-- ✅ **Server deployment** validation
-- ✅ **Cross-compilation** testing
-- ✅ **Multi-user** configurations
-- ⚡ **Parallel** execution
-
-</v-click>
-
-<div v-after class="mt-6 p-3 bg-orange-900 bg-opacity-20 rounded text-sm">
-⚠️ <strong>Note:</strong> GitHub Actions has usage limits. Consider which combinations you actually need!
-</div>
-
-<!--
-Matrix builds are powerful for ensuring your Nix configurations work across different platforms. This is especially important for teams with mixed environments or when deploying to different architectures.
--->
 
 ---
 layout: center
 ---
 
-# When Things Go Wrong 🚨
+# Dead Code Detector 🪦
 
-## Common CI Failures & Quick Fixes
+Detects unused code in Nix projects
 
-<div class="grid grid-cols-2 gap-6 mt-8">
-
-<div>
-
-### ❌ Build Timeout
-```bash
-Error: Action timed out after 6 hours
+```yaml {all|1-1|2-2|all}
+- name: Dead code detection
+  run: nix run nixpkgs#deadnix -- --fail .
 ```
-**Fix:** Add more binary caches or reduce build scope
-```yaml
-timeout-minutes: 60  # Don't wait forever
-```
-
-### ❌ Out of Disk Space  
-```bash
-No space left on device
-```
-**Fix:** Clean up between steps
-```yaml
-- name: Free disk space
-  run: nix-collect-garbage -d
-```
-
-</div>
-
-<div>
-
-### ❌ Architecture Mismatch
-```bash
-cannot build on 'x86_64-linux' platform
-```
-**Fix:** Use proper platform specification
-```yaml
-nix build --system x86_64-linux
-```
-
-### ❌ Flake Lock Issues
-```bash
-error: input 'nixpkgs' not found
-```
-**Fix:** Update or commit flake.lock
-```bash
-nix flake update && git add flake.lock
-```
-
-</div>
-
-</div>
-
-<!--
-These are the most common issues people encounter when setting up Nix CI/CD. Having quick fixes ready saves hours of debugging.
--->
 
 ---
 layout: two-cols
@@ -779,12 +423,7 @@ class: text-center
 
 <v-clicks>
 
-- 🌐 **Deploy Automatically** - Use CI to deploy to staging/production
-- 🏠 **Home Manager Integration** - Test user environment changes  
-- 🐳 **Container Builds** - Package your configs as Docker images
-- ☁️ **Cloud Deployments** - Auto-deploy to NixOS servers
-- 📊 **Monitoring** - Track system health after deployments
-- 🔒 **Secrets Management** - Integrate with sops-nix or age
+- 🌐 **Deploy Automatically** - Deploy/apply changes after CI pass
 
 </v-clicks>
 
