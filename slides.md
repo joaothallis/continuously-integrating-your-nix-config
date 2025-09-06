@@ -35,7 +35,12 @@ class: text-center
 
 <br>
 
-## Product Engineer at Turn.io 
+## Product Engineer at
+
+<div class="flex justify-center my-6">
+<img src="/turn-io-logo.png" alt="Turn.io Logo" class="h-12">
+</div>
+
 
 ::right::
 
@@ -43,7 +48,11 @@ class: text-center
 
 <br>
 
-## Tech Lead at FacilitaPay
+## Tech Lead at
+
+<div class="flex justify-center my-6">
+<img src="/facilita-pay-logo.jpeg" alt="FacilitaPay Logo" >
+</div>
 
 ---
 layout: center
@@ -54,32 +63,18 @@ layout: center
 ### Continuous Integration is a tool that Automatically run checks on each change you (commit) you do in a project 
 
 ---
-layout: two-cols
+layout: center
 ---
 
 # The Problem 🔥
 
 <v-clicks>
 
-**Without CI/CD for Nix:**
-- 💥 "It works on my machine"
-- 🐛 Configuration errors discovered in production
-- ⏰ Manual testing is slow and incomplete
-- 😰 Fear of making changes
-- 🔄 Inconsistent environments across team
-
-</v-clicks>
-
-::right::
-
-<v-clicks>
-
-**Horror Stories:**
-- NixOS rebuild fails after weeks of changes
-- Flake doesn't build on different architecture  
-- Home Manager breaks colleague's setup
-- Production deployment dies at 2 AM
-- Package conflicts discovered too late
+**Without CI/CD for Nix you can have:**
+- ℹ Code not well formatted
+- ❌ Broken builds
+- 🐛 Dead code
+- ⏰ Security vulnerabilities
 
 </v-clicks>
 
@@ -89,32 +84,6 @@ layout: two-cols
 
 <!--
 These are real scenarios that Nix users face regularly. The beauty of Nix's reproducibility is only as good as our ability to validate our configurations before they reach production or other team members.
--->
-
----
-layout: center
-class: text-center
----
-
-# Your Nix Config Deserves Better
-
-<v-clicks>
-
-## What if every change was:
-- ✅ **Automatically tested** before merge
-- 🔍 **Validated** across multiple platforms  
-- 🚀 **Built** to ensure it actually works
-- 📝 **Documented** with clear feedback
-- 🛡️ **Secure** and dependency-checked
-
-</v-clicks>
-
-<div v-after class="pt-8">
-  <h2 class="text-2xl text-green-400">That's what we're building today! 🎯</h2>
-</div>
-
-<!--
-This slide transitions from problems to possibilities. We're setting up the vision of what's possible with proper CI/CD for Nix configurations.
 -->
 
 ---
@@ -133,7 +102,7 @@ layout: center
 ```mermaid {scale: 0.8}
 graph TD
     A[Write Code] --> B[Test Locally]
-    B --> C[Deploy to Production]
+    B --> C[Manual Deploy to Production]
     C --> D[🔥 Something Breaks]
     D --> E[Debug in Production]
     E --> F[Fix & Redeploy]
@@ -153,7 +122,7 @@ graph TD
     A[Write Code] --> B[Push to Git]
     B --> C[🤖 Automated Tests]
     C --> D[🤖 Build & Validate]
-    D --> E[✅ Deploy if All Pass]
+    D --> E[✅ Automatic Deploy if All Pass]
     E --> F[📈 Monitor]
 ```
 
@@ -313,9 +282,6 @@ jobs:
     - uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixos-unstable
-    - uses: cachix/cachix-action@v16
-      with:
-        name: mycache
 ```
 
 ---
@@ -328,20 +294,6 @@ layoutClass: gap-16
 ```yaml {all|1-1|2-2|all}
 - name: Check code formattingj
   run: nix run nixpkgs#alejandra -- --check .
-```
-
----
-layout: center
-layoutClass: gap-16
----
-
-# Build Check 🏰
-
-Let's build actual configurations to catch build issues:
-
-```yaml {all|1-1|2-2|all}
-  - run: nix build
-  - run: nix-shell --run "echo OK"
 ```
 
 ---
@@ -371,7 +323,50 @@ Detects unused code in Nix projects
 ```
 
 ---
-layout: two-cols
+layout: center
+layoutClass: gap-16
+---
+
+# Build Check 🏰
+
+Let's build actual configurations to catch build issues:
+
+```yaml {all|1-1|2-2|all}
+  - run: nix build
+  - run: nix-shell --run "echo OK"
+```
+
+---
+layout: center
+layoutClass: gap-16
+---
+
+# Nix Flake Checker ❆
+
+Health checks for your Nix flakes
+
+```yaml {all|1-1|2-2|all}
+- name: Flake checker
+  run: nix run "github:DeterminateSystems/flake-checker"
+```
+
+---
+layout: center
+layoutClass: gap-16
+---
+
+# Cache 💾
+
+```yaml
+    - name: Setup Cachix
+      uses: cachix/cachix-action@v16
+      with:
+        name: nix-community
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+```
+
+---
+layout: center
 ---
 
 # Best Practices 💎
@@ -387,24 +382,7 @@ layout: two-cols
 ## Code Organization
 - **Modular configs** - Easier to test individual parts
 - **Clear naming** - `hosts/laptop.nix` not `config.nix`
-- **Version pins** - Pin critical dependencies  
-
-</v-clicks>
-
-::right::
-
-<v-clicks>
-
-## Team Collaboration
-- **Branch protection** - Require CI to pass
-- **Review requirements** - Don't merge broken configs
-- **Shared caches** - Use team Cachix or similar
-- **Testing environments** - Stage before production
-
-## Monitoring & Alerts  
-- **Build notifications** - Know when things break
-- **Performance tracking** - Watch build times
-- **Dependency updates** - Regular renovate/dependabot
+- **Version pins** - Pin critical dependencies (use flakes)
 
 </v-clicks>
 
@@ -423,7 +401,12 @@ class: text-center
 
 <v-clicks>
 
+<br>
+
+- 📍 **Local** - Setup the CI commands in your flake file for local and CI use
 - 🌐 **Deploy Automatically** - Deploy/apply changes after CI pass
+- ❄ **Auto `nix flake update`** - Automatically run `nix flake update` on schedule
+- ❄ **Specify which files should trigger the CI** - Only run CI when relevant files change (nix and ci file)
 
 </v-clicks>
 
@@ -441,68 +424,21 @@ layout: center
 class: text-center
 ---
 
-# Resources & Community 📚
-
-<div class="grid grid-cols-2 gap-8 mt-8">
-
-<div>
-
-## 🔗 Essential Links
-- **[Nix Manual](https://nixos.org/manual/nix/stable/)** - Official docs
-- **[NixOS Wiki](https://nixos.wiki/)** - Community knowledge
-- **[Determinate Systems](https://determinate.systems/)** - CI actions & tools
-- **[Nix Community](https://github.com/nix-community)** - Shared packages & tools
-
-## 🛠️ Helpful Tools  
-- **[devenv](https://devenv.sh/)** - Development environments
-- **[Cachix](https://cachix.org/)** - Binary caching service
-- **[nix-direnv](https://github.com/nix-community/nix-direnv)** - Auto-loading shells
-
-</div>
-
-<div>
-
-## 💬 Get Help & Share
-- **[NixOS Discourse](https://discourse.nixos.org/)** - Q&A and discussions
-- **[Matrix Chat](https://matrix.to/#/#nix:nixos.org)** - Real-time help  
-- **[Reddit r/NixOS](https://reddit.com/r/NixOS)** - Community posts
-- **[GitHub Discussions](https://github.com/NixOS/nixpkgs/discussions)** - Package issues
-
-## 📖 Advanced Reading
-- **[Nix Pills](https://nixos.org/guides/nix-pills/)** - Deep dive tutorial
-- **[Zero to Nix](https://zero-to-nix.com/)** - Learning resource
-
-</div>
-
-</div>
-
-<!--
-Providing concrete resources helps participants continue learning after the workshop. These are carefully selected as the most helpful resources for continuing the Nix journey.
--->
-
----
-layout: center
-class: text-center
----
-
 # Thank You! 🎉
 
 ## Questions & Discussion
 
-<div class="mt-12">
-  <div class="text-xl mb-4">You're now ready to confidently manage your Nix configs!</div>
-  <div class="text-lg opacity-75 mb-8">Remember: Start simple, iterate, and don't be afraid to experiment.</div>
-</div>
-
-<div class="flex justify-center gap-8 text-sm">
-  <div class="px-4 py-2 bg-blue-900 bg-opacity-30 rounded">
-    🚀 Build your first pipeline
+<div class="flex justify-center items-center gap-16 mt-12">
+  <div class="text-center">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/joaothallis/continuously-integrating-your-nix-config" alt="Workshop Slides QR Code" class="mx-auto mb-3">
+    <p class="text-sm text-gray-400">Workshop Slides</p>
+    <p class="text-xs opacity-60">github.com/joaothallis/...</p>
   </div>
-  <div class="px-4 py-2 bg-green-900 bg-opacity-30 rounded">  
-    🔧 Test with real configs
-  </div>
-  <div class="px-4 py-2 bg-purple-900 bg-opacity-30 rounded">
-    💬 Share your learnings
+  
+  <div class="text-center">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/claudionts/nix-dev" alt="Example Project QR Code" class="mx-auto mb-3">
+    <p class="text-sm text-gray-400">Example Project</p>
+    <p class="text-xs opacity-60">github.com/claudionts/nix-dev</p>
   </div>
 </div>
 
